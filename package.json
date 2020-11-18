@@ -6,11 +6,15 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.1.2",
     "@testing-library/user-event": "^12.2.2",
+    "file-saver": "^2.0.2",
+    "formik": "^2.2.5",
     "node-sass": "^4.14.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
-    "web-vitals": "^0.2.4"
+    "react-to-print": "^2.11.0",
+    "web-vitals": "^0.2.4",
+    "xlsx": "^0.16.8"
   },
   "scripts": {
     "start": "react-scripts start",

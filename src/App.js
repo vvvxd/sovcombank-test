@@ -1,78 +1,44 @@
 import React from 'react';
+import Input from './components/Input';
+import Modal from './components/Modal';
+import Table from './components/Table';
 
 const App = () => {
-    return (
-        <div className="table">
-            <div className="title">
-                Животные поступившие в приют
-            </div>
-            <div className="add">
-                <input className='input' type="text" placeholder='Порода'/>
-                <input className='input' type="text" placeholder='Цвет'/>
-                <input className='input' type="text" placeholder='Возраст'/>
-                <input className='input' type="text" placeholder='Отличительные признаки'/>
-                <button className='but'>Добавить</button>
-            </div>
-            <table>
-                <thead>
-                <tr>
-                    <th>Порода</th>
-                    <th>Цвет</th>
-                    <th>Возраст</th>
-                    <th width='200px'>Отличительные признаки</th>
-                </tr>
-                </thead>
+  const [items, setItems] = React.useState([
+    { breed: 'Лайка', color: 'Черный', age: '5', signs: 'Пятно на ухе' },
+    { breed: 'Лайка', color: 'Черный', age: '5', signs: 'Пятно на ухе' },
+    { breed: 'Лайка', color: 'Черный', age: '5', signs: 'Пятно на ухе' },
+  ]);
+  const [activeModal, setActiveModal] = React.useState(false);
+  const [lastAddedItem, setLastAddedItem] = React.useState(null);
 
-                <tbody>
-                <tr>
-                    <td>Ячейка 2</td>
-                    <td>Ячейка 2</td>
-                    <td>Ячейка 3</td>
-                    <td>dddeeeeeee</td>
-                    <td>
-                        <button className='but'>Изменить</button>
-                    </td>
-                    <td>
-                        <button className='but'>Удалить</button>
-                    </td>
-                </tr>
-                <tr>
+  const addDog = (obj) => {
+    setItems([...items, obj]);
+    setLastAddedItem(obj);
+    setActiveModal(true);
+  };
 
-                    <td>Ячейка 2</td>
-                    <td>Ячейка 2</td>
-                    <td>Ячейка 3</td>
-                    <td>Ячейка 2</td>
-                    <td>
-                        <button className='but'>Изменить</button>
-                    </td>
-                    <td>
-                        <button className='but'>Удалить</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td> <input className='input' type="text" placeholder='Порода'/></td>
-                    <td> <input className='input' type="text" placeholder='Порода'/></td>
-                    <td> <input className='input' type="text" placeholder='Порода'/></td>
-                    <td> <input className='input' type="text" placeholder='Порода'/></td>
-                    <td colSpan={2}>
-                        <button className='but'>Сохранить изменения</button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div className="modal">
-                <div className="modal__container">
-                    <p className='modal__text'>впривввввввввввввввввввввввввв <br/> ввввввввввввввввввввввввввввввввввввввв
-                    </p>
-                    <div className="buttons">
-                        <button className='but'>Распечатать</button>
-                        <button className='but'>Закрыть</button>
-                    </div>
+  const changeDog = (obj, id) => {
+    let newArr = items;
+    newArr[id] = obj;
+    setItems([...newArr]);
+  };
 
-                </div>
+  const deleteDog = (id) => {
+    if (global.confirm('Вы действительно хотите удалить?')) {
+      setItems(items.filter((_, idItem) => idItem !== id));
+    }
+  };
 
-            </div>
-        </div>);
+  return (
+    <div className="table">
+      <div className="title">Животные поступившие в приют</div>
+      <Input submit={addDog} textButton="Добавить" styleClass="add" />
+      <Table items={items} changeDog={changeDog} deleteDog={deleteDog} />
+      {activeModal && <Modal item={lastAddedItem} setActiveModal={setActiveModal}/>}
+      
+    </div>
+  );
 };
 
 export default App;
