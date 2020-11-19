@@ -9,7 +9,12 @@ const ExportReactCSV = ({ csvData, fileName }) => {
   const fileExtension = '.xlsx';
 
   const exportToCSV = (csvData, fileName) => {
-    const ws = XLSX.utils.json_to_sheet(csvData);
+    let arr;
+    if (csvData) {
+      arr = [...csvData.map((item) => Object.assign({}, item))];
+      arr.map((item) => delete item._id);
+    }
+    const ws = XLSX.utils.json_to_sheet(arr);
     const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const data = new Blob([excelBuffer], { type: fileType });
@@ -17,7 +22,7 @@ const ExportReactCSV = ({ csvData, fileName }) => {
   };
 
   return (
-    <button className='excel but' variant="warning" onClick={(e) => exportToCSV(csvData, fileName)}>
+    <button className="excel but" variant="warning" onClick={(e) => exportToCSV(csvData, fileName)}>
       Экспорт в эксел
     </button>
   );

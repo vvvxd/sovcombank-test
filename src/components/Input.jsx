@@ -13,19 +13,21 @@ function Input({ submit, textButton, id, styleClass, item }) {
       submit(values, id);
       formik.resetForm();
     },
+    validateOnChange: false,
+    validateOnBlur: false,
     validate: (values) => {
       let errors = {};
       if (!values.breed) {
-        errors.breed='error'
+        errors.breed = 'error';
       }
       if (!values.color) {
-        errors.color='error'
+        errors.color = 'error';
       }
       if (!values.age) {
-        errors.age='error'
+        errors.age = 'error';
       }
       if (!values.signs) {
-        errors.signs='error'
+        errors.signs = 'error';
       }
       return errors;
     },
