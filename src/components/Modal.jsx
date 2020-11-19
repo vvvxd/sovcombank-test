@@ -10,7 +10,7 @@ class ComponentToPrint extends React.Component {
         <br />
         Цвет:{this.props.item.color}
         <br /> Возраст:{this.props.item.age}
-        <br /> Отличительные признаки:{this.props.item.signs}
+        <br /> Отличительные признаки: {this.props.item.signs}
       </div>
     );
   }
@@ -27,7 +27,12 @@ class Modal extends React.Component {
 
           <div className="buttons">
             <ReactToPrint
-              trigger={() => <a className="but print" href="#">Распечатать</a>}
+              trigger={() => (
+                // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                <a className="but print" href="">
+                  Распечатать
+                </a>
+              )}
               content={() => this.componentRef}
             />
             <button className="but" onClick={this.closeModal}>

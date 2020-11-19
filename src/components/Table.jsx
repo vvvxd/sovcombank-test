@@ -21,42 +21,43 @@ function Table({ items, changeDog, deleteDog }) {
         </tr>
       </thead>
       <tbody>
-        {items.map((item, id) => {
-          if (changeItemId === id) {
-            return (
-              <tr key={id}>
-                <td colSpan={6}>
-                  <Input
-                    id={id}
-                    item={item}
-                    submit={acceptTheChanges}
-                    textButton="Сохранить изменения"
-                    styleClass="change"
-                  />
-                </td>
-              </tr>
-            );
-          } else {
-            return (
-              <tr key={id}>
-                <td>{item.breed}</td>
-                <td>{item.color}</td>
-                <td>{item.age}</td>
-                <td>{item.signs}</td>
-                <td>
-                  <button className="but" onClick={() => setChangeItemId(id)}>
-                    Изменить
-                  </button>
-                </td>
-                <td>
-                  <button className="but" onClick={() => deleteDog(id)}>
-                    Удалить
-                  </button>
-                </td>
-              </tr>
-            );
-          }
-        })}
+        {items &&
+          items.map((item, id) => {
+            if (changeItemId === id) {
+              return (
+                <tr key={id}>
+                  <td colSpan={6}>
+                    <Input
+                      id={item._id}
+                      item={item}
+                      submit={acceptTheChanges}
+                      textButton="Сохранить изменения"
+                      styleClass="change"
+                    />
+                  </td>
+                </tr>
+              );
+            } else {
+              return (
+                <tr key={id}>
+                  <td>{item.breed}</td>
+                  <td>{item.color}</td>
+                  <td>{item.age}</td>
+                  <td>{item.signs}</td>
+                  <td>
+                    <button className="but" onClick={() => setChangeItemId(id)}>
+                      Изменить
+                    </button>
+                  </td>
+                  <td>
+                    <button className="but" onClick={() => deleteDog(item._id)}>
+                      Удалить
+                    </button>
+                  </td>
+                </tr>
+              );
+            }
+          })}
         <tr>
           <td>
             <ExportReactCSV csvData={items} fileName="Приют" />

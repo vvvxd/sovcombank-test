@@ -4,29 +4,63 @@ import Modal from './components/Modal';
 import Table from './components/Table';
 
 const App = () => {
-  const [items, setItems] = React.useState([
-    { breed: 'Лайка', color: 'Черный', age: '5', signs: 'Пятно на ухе' },
-    { breed: 'Лайка', color: 'Черный', age: '5', signs: 'Пятно на ухе' },
-    { breed: 'Лайка', color: 'Черный', age: '5', signs: 'Пятно на ухе' },
-  ]);
+  const [items, setItems] = React.useState(null);
   const [activeModal, setActiveModal] = React.useState(false);
   const [lastAddedItem, setLastAddedItem] = React.useState(null);
 
+  const loadDogs = () => {
+    fetch('http://localhost:3001/api/dogs', {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((result) => setItems(result));
+  };
+
+  React.useEffect(() => {
+    loadDogs();
+  }, []);
+
   const addDog = (obj) => {
-    setItems([...items, obj]);
-    setLastAddedItem(obj);
-    setActiveModal(true);
+    fetch('http://localhost:3001/api/dogs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(obj),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setItems([...items, result]);
+        setLastAddedItem(result);
+        setActiveModal(true);
+      });
   };
 
   const changeDog = (obj, id) => {
-    let newArr = items;
-    newArr[id] = obj;
-    setItems([...newArr]);
+    fetch('http://localhost:3001/api/dogs/' + id, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(obj),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        loadDogs();
+      });
   };
 
   const deleteDog = (id) => {
+    console.log(id);
     if (global.confirm('Вы действительно хотите удалить?')) {
-      setItems(items.filter((_, idItem) => idItem !== id));
+      fetch('http://localhost:3001/api/dogs/' + id, {
+        method: 'DELETE',
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          loadDogs();
+        });
     }
   };
 
@@ -35,8 +69,7 @@ const App = () => {
       <div className="title">Животные поступившие в приют</div>
       <Input submit={addDog} textButton="Добавить" styleClass="add" />
       <Table items={items} changeDog={changeDog} deleteDog={deleteDog} />
-      {activeModal && <Modal item={lastAddedItem} setActiveModal={setActiveModal}/>}
-      
+      {activeModal && <Modal item={lastAddedItem} setActiveModal={setActiveModal} />}
     </div>
   );
 };
