@@ -9,7 +9,7 @@ const App = () => {
   const [lastAddedItem, setLastAddedItem] = React.useState(null);
 
   const loadDogs = () => {
-    fetch('http://localhost:3001/api/dogs', {
+    fetch('api/dogs', {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -21,7 +21,7 @@ const App = () => {
   }, []);
 
   const addDog = (obj) => {
-    fetch('http://localhost:3001/api/dogs', {
+    fetch('/api/dogs', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -30,7 +30,6 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         setItems([...items, result]);
         setLastAddedItem(result);
         setActiveModal(true);
@@ -38,7 +37,7 @@ const App = () => {
   };
 
   const changeDog = (obj, id) => {
-    fetch('http://localhost:3001/api/dogs/' + id, {
+    fetch('/api/dogs/' + id, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -54,7 +53,7 @@ const App = () => {
   const deleteDog = (id) => {
     console.log(id);
     if (global.confirm('Вы действительно хотите удалить?')) {
-      fetch('http://localhost:3001/api/dogs/' + id, {
+      fetch('/api/dogs/' + id, {
         method: 'DELETE',
       })
         .then((res) => res.json())

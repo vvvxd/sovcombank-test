@@ -2,6 +2,8 @@ const Datastore = require('nedb');
 var express = require('express');
 var app = express();
 
+const PORT = process.env.PORT || 3001;
+
 const dogs = new Datastore({
   filename: './dogs.db',
   autoload: true,
@@ -69,4 +71,4 @@ app.delete('/api/dogs/:id', (req, res) => {
   );
 });
 
-app.listen(3001, () => console.log('Server has been started on port 3001...'));
+app.listen(PORT, () => console.log('Server has been started ...'));
